@@ -2,6 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+// Import Routes
+const jobRoutes = require("./routes/jobRoutes");
+const contactRoutes = require("./routes/contactRoutes");
+const testimonialRoutes = require("./routes/testimonialRoutes");
+const quoteRoutes = require("./routes/quoteRoutes")
 
 const app = express();
 
@@ -23,14 +28,12 @@ app.get("/", (req, res) => {
   res.send("Shield Security API is running...");
 });
 
-// Import Routes
-const jobRoutes = require("./routes/jobRoutes");
-const contactRoutes = require("./routes/contactRoutes");
-const testimonialRoutes = require("./routes/testimonialRoutes");
+
 
 app.use("/api/jobs", jobRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/quotes",quoteRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
