@@ -1,17 +1,27 @@
 const express = require("express");
-const JobApplication = require("../models/JobApplication");
-
 const router = express.Router();
+const JobApplication = require("../models/JobApplication");
+const upload = require("../middleware/upload");
 
-// Submit Job Application
-router.post("/", async (req, res) => {
+router.post("/", upload.single("resume"), async (req, res) => {
   try {
-    const { name, email, resumeUrl } = req.body;
-    const newApplication = new JobApplication({ name, email, resumeUrl });
+    const { name, email, phone, message, jobTitle } = req.body;
+    const resumeUrl = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const newApplication = new JobApplication({
+      name,
+      email,
+      phone,
+      message,
+      jobTitle,
+      resumeUrl,
+    });
+
     await newApplication.save();
     res.status(201).json({ message: "Application submitted successfully!" });
   } catch (error) {
-    res.status(500).json({ error: "Error submitting application" });
+    console.error("Job application submission error:", error);
+    res.status(500).json({ error: "Something went wrong" });
   }
 });
 

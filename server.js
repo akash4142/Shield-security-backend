@@ -7,12 +7,14 @@ const jobRoutes = require("./routes/jobRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const testimonialRoutes = require("./routes/testimonialRoutes");
 const quoteRoutes = require("./routes/quoteRoutes")
+const path  = require("path");
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // MongoDB Connection
 mongoose
@@ -22,12 +24,6 @@ mongoose
   })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
-
-// Home Route
-app.get("/", (req, res) => {
-  res.send("Shield Security API is running...");
-});
-
 
 
 app.use("/api/jobs", jobRoutes);

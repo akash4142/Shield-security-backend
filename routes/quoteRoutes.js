@@ -4,10 +4,33 @@ const QuoteRequest = require("../models/QuoteRequest");
 
 // POST /api/quotes
 router.post("/", async (req, res) => {
+  
   try {
-    const { name, email, phone, service, message } = req.body;
+    console.log("Incoming data:", req.body);
+    const {
+      firstName,
+      lastName,
+      phone,
+      email,
+      city,
+      reason,
+      frequency,
+      heardFrom,
+      message,
+    } = req.body;
 
-    const newQuote = new QuoteRequest({ name, email, phone, service, message });
+    const newQuote = new QuoteRequest({
+      firstName,
+      lastName,
+      phone,
+      email,
+      city,
+      reason,
+      frequency,
+      heardFrom,
+      message,
+    });
+
     await newQuote.save();
 
     res.status(201).json({ message: "Quote request submitted successfully!" });
